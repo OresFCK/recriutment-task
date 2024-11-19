@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kawa</title>
     <style>
-        /* Stylowanie z myślą o urządzeniach mobilnych */
         #coffee-container {
             max-width: 90%;
             margin: 0 auto;
@@ -22,6 +21,12 @@
             font-size: 1em;
             margin-bottom: 20px;
         }
+        #coffee-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
         .button-container button {
             padding: 10px;
             margin: 5px;
@@ -34,4 +39,47 @@
 
 <div id="coffee-container">
     <div id="coffee-name">Ładowanie...</div>
-    <div
+    <img id="coffee-image" src="" alt="Zdjęcie kawy" />
+    <div id="coffee-description"></div>
+    <div class="button-container">
+        <button id="prev-coffee">Poprzednia kawa</button>
+        <button id="next-coffee">Następna kawa</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    let coffees = [];
+    let currentCoffeeIndex = 0;
+
+    function loadCoffee() {
+        const coffee = coffees[currentCoffeeIndex];
+        $('#coffee-name').text(coffee.title);
+        $('#coffee-description').text(coffee.description);
+        $('#coffee-image').attr('src', coffee.image || 'https://via.placeholder.com/300').attr('alt', `Zdjęcie ${coffee.title}`);
+    }
+
+    $.get('https://api.sampleapis.com/coffee/hot', function(data) {
+        coffees = data;
+        loadCoffee();
+    });
+
+    $('#prev-coffee').on('click', function() {
+        if (currentCoffeeIndex > 0) {
+            currentCoffeeIndex--;
+            loadCoffee();
+        }
+    });
+
+    $('#next-coffee').on('click', function() {
+        if (currentCoffeeIndex < coffees.length - 1) {
+            currentCoffeeIndex++;
+            loadCoffee();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
