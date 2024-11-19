@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zaznacz Wszystkie</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <label><input type="checkbox" id="select-all"> Zaznacz wszystkie</label>
+  <div>
+    <label><input type="checkbox" class="select-item"> Opcja 1</label><br>
+    <label><input type="checkbox" class="select-item"> Opcja 2</label><br>
+    <label><input type="checkbox" class="select-item"> Opcja 3</label>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $('#select-all').on('change', function() {
+        $('.select-item').prop('checked', $(this).prop('checked'));
+      });
+
+      $('.select-item').on('change', function() {
+        $('#select-all').prop('checked', $('.select-item:checked').length === $('.select-item').length);
+      });
+    });
+  </script>
+</body>
+</html>
